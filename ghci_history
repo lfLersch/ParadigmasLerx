@@ -1,0 +1,28 @@
+isInt "7657t6"
+isInt "76576"
+isInt "76576"
+isInt "76576"
+isInt "7657ffd6"
+isInt "7657ffd6"
+"5689gg"
+isInt "76576"
+"78668"
+firstName "luiz felipe"
+firstName "luiz felipe"
+onlySpaceCOM  "CHAMA NENEM  PINK"
+onlySpaceSem "ola tudo bem"
+noVowelsCOM "PULA"
+noVowelsSEM "oiap"
+noVowelsSEM "opqweioui"
+noVowelsSEM ["opqweioui","ouytrul"]
+noVowelSEMs ["opqweioui","ouytrul"]
+noVowels ["opqweioui","ouytrul"]
+noVowels ["opqweioui","ouytrul"]
+noVowels ["oi","ol"]
+htmlListItemsCom ["OI","PO"]
+htmlListItems ["oi","ola"]
+htmlListItems ["oi","ola"]
+addComma ["oi","tchau"]
+isVowel 'T'
+isVowel 'a'
+isVowel a
