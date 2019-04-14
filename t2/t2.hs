@@ -5,6 +5,8 @@ type Rect      = (Point,Float,Float)
 type Circle    = (Point,Float)
 
 
+--mmod :: Int-> Int
+--mmod x = mod 
 -------------------------------------------------------------------------------
 -- Paletas
 -------------------------------------------------------------------------------
@@ -29,6 +31,13 @@ palette3 x y z n = [(255*x,255*y,255*z) | i <- [0..(n-1)] ]
 
 palette4 :: Int -> Int -> Int -> Int -> [(Int,Int,Int)]
 palette4 x y z n = [((50+i*10)*x,(50+i*10)*y,(50+i*10)*z) | i <- [0..n]]
+
+paletteN :: Int ->[(Int,Int,Int)]
+paletteN 0 = [(255,165,0)]
+paletteN 1 = [(0,0,125)]
+paletteN 2 = [(0,0,125)]
+paletteN 3 = [(0,250,250)]
+
 
 -------------------------------------------------------------------------------
 -- Geração de retângulos em suas posições
@@ -56,6 +65,11 @@ genCircleInWave :: Float -> [[Circle]]
 genCircleInWave n  = [[((100+60*m,50*(sin(m))+100*x),r) | m <- [0,0.448572..2*pi]] | x <- [1..n]]
   where gap = 50
         r = 20
+
+genSubCircle :: Float -> [Circle]
+genSubCircle n  = [((r*i,r*j),r) | i <- [1..n], j <- [1..n]]
+  where gap = 50
+        r = 80
  
 
 
@@ -108,14 +122,15 @@ genCase1 = do
   where svgstrs = svgBegin w h ++ svgfigs ++ svgEnd
         svgfigs = svgElements svgRect rects (map svgStyle palette)
         rects = oneList (genRectsInLine ncolumns nlines)
-        palette = greenPalette nrects 80
+        palette = greenPalette nrects inicialcolor
         nrects = ncolumns * nlines -1
         ncolumns = 10
         nlines = 5
+        inicialcolor = 80
 
 
-g2 :: IO ()
-g2 = do
+genCase2 :: IO ()
+genCase2 = do
   writeFile "caseX.svg" $ svgstrs
   where svgstrs = svgBegin w h ++ svgfgs ++ svgEnd
         svgfgs = svgElements svgCircle circle (map svgStyle palette)
@@ -124,19 +139,32 @@ g2 = do
 
 (w,h) = (1500,500)
 
-g3 :: IO ()
-g3 = do
+genCase3 :: IO ()
+genCase3 = do
   writeFile "caseX.svg" $ svgstrs
   where svgstrs = svgBegin w h ++ svgfgs ++ svgEnd
         svgfgs = svgElements svgCircle circle (map svgStyle palette)
         circle = oneList (genCircleInLine 3 2 0 1) ++ oneList(genCircleInLine 3 2 20 1) ++ oneList(genCircleInLine 3 2 20 (-1))
         palette = (palette3 0 0 1 6) ++ (palette3 0 1 0 6) ++ (palette3 1 0 0 6)
 
-g4 :: IO()
-g4 = do
+genCase4 :: IO()
+genCase4 = do
   writeFile "caseX.svg" $ svgstrs
   where svgstrs = svgBegin w h ++ svgfgs ++ svgEnd
         svgfgs = svgElements svgCircle circle (map svgStyle palette)
         circle = oneList(genCircleInWave 3)
-        palette = (palette4 1 0 0 14) ++ (palette4 0 1 0 14) ++ (palette4 0 0 1 14)
+        palette = (palette4 1 0 0 ncircle) ++ (palette4 0 1 0 ncircle) ++ (palette4 0 0 1 ncircle)
+        ncircle = 14
+
+genCase5 :: IO()
+genCase5 = do
+  writeFile "caseX.svg" $ svgstrs
+  where svgstrs = svgBegin w h ++ svgfgs ++ svgEnd
+        svgfgs = svgElements svgCircle circle (map svgStyle palette)
+        circle = genSubCircle nside
+        palette = oneList([paletteN (mod (m*n+x) 2) | x <- [1..n], m <- [1..n]])
+        nside = 15
+        n = 15
+
+        
 
