@@ -28,5 +28,24 @@ countdown(N,[H|T]) :- H is N, X is N - 1, countdown(X,T).
 nRandoms(0,[]).
 nRandoms(N,[H|T]) :- random(1,100,H),X is N - 1, nRandoms(X,T).
 
-potN0(0,[]).
-potN0(N,[H|T]) :- pow(2,N,H), X is N - 1, potN0(2,X,T).
+potN0(-1,[]).
+potN0(N,[H|T]) :- pow(2,N,H), X is N - 1, potN0(X,T).
+
+zipmult([],[],[]).
+zipmult(A,[],[]).
+zipmult([],A,[]).
+zipmult([H1|T1],[H2|T2],[H3|T3]) :- 
+H3 is H1 * H2, zipmult(T1,T2,T3).
+
+potencias(N,L) :- potencias2(N,0,L).
+
+potencias2(N,N,[]).
+potencias2(N,C,[H|T]) :- pow(2,C,H), X is C + 1, potencias2(N,X,T).
+
+cedulas(0,[],[]).
+cedulas(V,[H1|T1],[H2|T2]) :- X is mod(V,H1), H2 is V//H1, cedulas(X,T1,T2).
+
+
+
+
+
