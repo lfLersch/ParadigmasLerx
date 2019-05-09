@@ -132,7 +132,7 @@ rules([[chicken,5],[
 	[1,[why,the,chicken,cross,the,street,?],0,
 		[to,reach,the,other,side,.]],
 	[2,[who,comes,first,the,egg,or,the,chicken,?],0,
-		[nobody,can,answer,you,this,question,neither,i,.]]]]).
+		[you,can't,answer,this,question,neither,do,i,.]]]]).
 
 
 rules([[remember,5],[
