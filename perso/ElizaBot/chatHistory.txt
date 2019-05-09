@@ -1,0 +1,73 @@
+Hello. I am ELIZA. How can I help you?
+> can you say my name
+
+I am not interested in names.
+> are you interested in something?
+
+Why are you interested in whether I am interested in something or not?
+> i dont know, do you?
+
+Do you not really know do i?
+> maybe
+
+You do not seem quite certain.
+> certainly
+
+You seem quite positive.
+> but i can be negative
+
+You say but you can be negative
+> yes i did
+
+You are sure?
+> always
+
+Can you think of a specific example?
+> why i would do this?
+
+Can you elaborate on that?
+> if you ask me for
+
+Do you think it is likely that i ask you for?
+> no i dont
+
+Are you saying no just to be negative?
+> yes i do
+
+I see.
+> me too
+
+Do you say you too for some special reason?
+> yes i can see too
+
+I understand.
+> everything?
+
+I am not sure I understand you fully.
+> i am sure you understand nothing
+
+Is it because you are sure i understand nothing that you came to me?
+> yes i do
+
+You seem quite positive.
+> i am like a proton, always positive
+
+In what way?
+> in the way of not to be negative
+
+Please go on.
+> i will stop
+
+That is quite interesting.
+> im not sure about that
+
+What makes you think I am not sure about that?
+> you can be sure, but i am not
+
+We were discussing you, not me.
+> why we can not discuss you?
+
+Oh, i.
+> yes you
+
+You seem quite positive.
