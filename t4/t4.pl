@@ -4,7 +4,7 @@ segunda(henrique,apartamento).
 segunda(bia, apartamento).
 segunda(adriano, apartamento).
 segunda(alice, apartamento).
-segunda(bernardo, portoAlegre).
+segunda(bernardo, santaMaria).
 segunda(maria, apartamento).
 
 terca(pedro,santaMaria).
@@ -13,7 +13,7 @@ terca(henrique,portoAlegre).
 terca(bia, portoAlegre).
 terca(adriano, apartamento).
 terca(alice, portoAlegre).
-terca(bernardo, portoAlegre).
+terca(bernardo, santaMaria).
 terca(maria, santaMaria).
 
 quarta(pedro,portoAlegre).
@@ -22,7 +22,7 @@ quarta(henrique,apartamento).
 quarta(bia, portoAlegre).
 quarta(adriano, santaMaria).
 quarta(alice, portoAlegre).
-quarta(bernardo, santaMaria).
+quarta(bernardo, portoAlegre).
 quarta(maria, santaMaria).
 
 quinta(pedro,santaMaria).
@@ -31,7 +31,7 @@ quinta(henrique,apartamento).
 quinta(bia, santaMaria).
 quinta(adriano, apartamento).
 quinta(alice, apartamento).
-quinta(bernardo, portoAlegre).
+quinta(bernardo, santaMaria).
 quinta(maria, santaMaria).
 
 sexta(pedro,apartamento).
@@ -68,21 +68,9 @@ motivo(X, dinheiro) :- pobre(X).
 
 
 
-acesso(X) :- ((quarta(X, apartamento); quarta(X, santaMaria);quinta(X, portoAlegre)),
-(quinta(X, apartamento); sexta(X, apartamento)),
-(terca(X, portoAlegre)));
-
-((quarta(X, apartamento);quinta(X, portoAlegre)),
-(quinta(X, apartamento); sexta(X, apartamento)),
-(quarta(X, santaMaria); terca(X, portoAlegre)));
-
-((quinta(X, apartamento); quarta(X, apartamento); quarta(X, santaMaria);quinta(X, portoAlegre)),
-(sexta(X, apartamento)),
-(terca(X, portoAlegre)));
-
-((quinta(X, apartamento); quarta(X, apartamento);quinta(X, portoAlegre)),
-(sexta(X, apartamento)),
-(quarta(X, santaMaria); terca(X, portoAlegre))).
-
+acesso(X) :- 
+(quinta(X, portoAlegre); quarta(X, santaMaria); quarta(X, apartamento); quinta(X, apartamento)),
+(segunda(X, santaMaria); terca(X, portoAlegre)),
+(quinta(X, apartamento); sexta(X, apartamento)).
 
 assassino(X,Y) :- motivo(X,Y), acesso(X).
