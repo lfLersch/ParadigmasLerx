@@ -28,7 +28,9 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.ToggleGroup;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javax.swing.JButton;
@@ -39,40 +41,97 @@ import javax.swing.JButton;
 public class RandomPickerGUI extends Application {
 
     private Desktop desktop = Desktop.getDesktop();
-    Boolean fNext;
+    Boolean fNext, fShuffle;
+    Menu mFile = new Menu("File");
+    Menu mHelp = new Menu("Help");
+
+    MenuItem miOpen = new MenuItem("Open");
+    MenuItem miExit = new MenuItem("Exit");
+    MenuItem miAbout = new MenuItem("About");
+    MenuBar menuBar = new MenuBar();
 
     public static void main(String[] args) {
         launch(args);
     }
 
     public void start(Stage stage) {
-        fNext = false;
-        Random r = new Random();
-
-        Menu mFile = new Menu("File");
-        Menu mHelp = new Menu("Help");
-
-        MenuItem miOpen = new MenuItem("Open");
-        MenuItem miExit = new MenuItem("Exit");
-        MenuItem miAbout = new MenuItem("About");
-
-        TextArea textArea = new TextArea();
-
-        FileChooser fileChooser = new FileChooser();
-        List<String> lista = new ArrayList<>();
-
         mFile.getItems().addAll(miOpen, miExit);
         mHelp.getItems().add(miAbout);
-
-        MenuBar menuBar = new MenuBar();
         menuBar.getMenus().addAll(mFile, mHelp);
+        principal(stage);
+    }
 
-        VBox vb = new VBox();
-        vb.setSpacing(10);
-        vb.setAlignment(Pos.TOP_CENTER);
+    private void openFile(File file) {
+        try {
+            desktop.open(file);
+        } catch (IOException ex) {
+            Logger.getLogger(FileChooser.class.getName()).log(
+                    Level.SEVERE, null, ex
+            );
+        }
+    }
+
+    private void about(Stage stage) {
+        VBox vbAbout = new VBox();
+        vbAbout.setSpacing(10);
+        vbAbout.setAlignment(Pos.TOP_CENTER);
+        Button bBack = new Button("Back");
+        Label lInfo = new Label("Luiz Felipe Lehmen Lersch");
+
+        miAbout.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                about(stage);
+            }
+        });
+
+        miExit.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                System.exit(0);
+
+            }
+        });
+
+        miOpen.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                principal(stage);
+            }
+        });
+
+        bBack.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                principal(stage);
+            }
+        });
+
+        vbAbout.getChildren().addAll(menuBar, lInfo, bBack);
+        stage.setScene(new Scene(vbAbout, 500, 500));
+        stage.show();
+    }
+
+    private void principal(Stage stage) {
+        fNext = false;
+        fShuffle = true;
+        RandomList random = new RandomList();
+        TextArea textArea = new TextArea();
         Label lDraft = new Label("");
         Button bNext = new Button("Next");
         Button bShuffle = new Button("Shuffle");
+        final ToggleGroup group = new ToggleGroup();
+        RadioButton rbOn = new RadioButton("Online");
+        rbOn.setToggleGroup(group);
+        rbOn.setSelected(true);
+        RadioButton rbOff = new RadioButton("Offline");
+        rbOff.setToggleGroup(group);
+
+        VBox vbPrincipal = new VBox();
+        vbPrincipal.setSpacing(10);
+        vbPrincipal.setAlignment(Pos.TOP_CENTER);
+
+        miAbout.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                about(stage);
+            }
+        });
 
         miExit.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
@@ -82,6 +141,7 @@ public class RandomPickerGUI extends Application {
 
         miOpen.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
+                FileChooser fileChooser = new FileChooser();
                 File file = fileChooser.showOpenDialog(stage);
                 if (file != null) {
                     try {
@@ -105,45 +165,41 @@ public class RandomPickerGUI extends Application {
 
         bNext.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                if(fNext){
-                    if(lista.size()>0){
-                        int i = r.nextInt(lista.size());
-                        lDraft.setText(lista.get(i));
-                        lista.remove(i); 
-                    }else{
+                if (fNext) {
+                    if (random.listaSize() > 0) {
+                        lDraft.setText(random.getStrings());
+                    } else {
                         fNext = false;
+                        fShuffle = true;
                         lDraft.setText("");
                     }
                 }
             }
         });
-        
+
         bShuffle.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                String linha = textArea.getText();
-                String vLista[] = linha.split("\n");
-                for(int i = 0; i < vLista.length; i++){
-                    lista.add(vLista[i]);
-                }
-                if(lista.size() > 0){
-                    Collections.shuffle(lista);
-                    fNext = true;
+                if (fShuffle) {
+                    String linha = textArea.getText();
+                    String vLista[] = linha.split("\n");
+                    for (int i = 0; i < vLista.length; i++) {
+                        random.addString(vLista[i]);
+                    }
+                    if (random.listaSize() > 0 && !("".equals(textArea.getText()))) {
+                        if (rbOn.isSelected()) {
+                            random.shuffleOnline();
+                        } else {
+                            random.shuffleOffline();
+                        }
+                        fNext = true;
+                        fShuffle = false;
+                    }
                 }
             }
         });
 
-        vb.getChildren().addAll(menuBar, textArea, lDraft, bNext,bShuffle);
-        stage.setScene(new Scene(vb, 500, 500));
+        vbPrincipal.getChildren().addAll(menuBar, textArea, lDraft, bNext, bShuffle, rbOn, rbOff);
+        stage.setScene(new Scene(vbPrincipal, 500, 500));
         stage.show();
-    }
-
-    private void openFile(File file) {
-        try {
-            desktop.open(file);
-        } catch (IOException ex) {
-            Logger.getLogger(FileChooser.class.getName()).log(
-                    Level.SEVERE, null, ex
-            );
-        }
     }
 }

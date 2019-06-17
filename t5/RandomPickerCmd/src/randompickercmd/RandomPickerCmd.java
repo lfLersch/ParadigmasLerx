@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
@@ -35,30 +36,28 @@ import javafx.stage.Stage;
 
 public class RandomPickerCmd {
    public static void main(String[] args) throws IOException {
-      List<String> lista = new ArrayList<>();
+       int r=3;
+      RandomList random = new RandomList();
+      Scanner s = new Scanner(System.in);
        
-       try {
+
       FileReader arq = new FileReader("texto.txt");
-      BufferedReader lerArq = new BufferedReader(arq);
-      String linha = lerArq.readLine();
-      while(linha != null){
-        lista.add(linha);
-        linha = lerArq.readLine();
+      random.readArq(arq);
+      while(r > 1 || r < 0){
+          System.out.println("Para embaralhar: \nOnline=0\nOffline=1");
+          r = s.nextInt();
       }
-      arq.close();
-    } catch (IOException e) {
-        System.err.printf("Erro na abertura do arquivo: %s.\n",
-          e.getMessage());
-    }
-      Collections.shuffle(lista);
-      Random r = new Random();
-            while(lista.size() > 0){
-                int i = r.nextInt(lista.size());
-                System.out.println(lista.get(i));
-                lista.remove(i);
-                System.in.read();
-             }
+      if(r==0){
+          random.shuffleOnline();
+      }else{
+          random.shuffleOffline();
+      }
             
-                System.out.println("Empty List");
-   }
+        while (random.listaSize() > 0) {
+            System.out.println(random.getStrings());
+            System.in.read();
+        }
+
+        System.out.println("Empty List");
+    }
 }
