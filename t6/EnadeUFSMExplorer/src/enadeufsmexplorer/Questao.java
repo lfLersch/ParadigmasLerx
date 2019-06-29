@@ -10,7 +10,7 @@ package enadeufsmexplorer;
  * @author luizf
  */
 public class Questao {
-    private String ano;
+    String ano;
     String prova;
     String tipoQuestao;
     String idQuestao;
@@ -19,6 +19,8 @@ public class Questao {
     String acertosRegiao;
     String acertosBrasil;
     String dif;
+    String gabarito;
+    String urlImage;
 
     public Questao(String[] vet) {
         this.ano = vet[0];
@@ -30,6 +32,8 @@ public class Questao {
         this.acertosRegiao = vet[6];
         this.acertosBrasil = vet[7];
         this.dif = vet[8];
+        this.gabarito = vet[9];
+        this.urlImage = null;
     }
 
     public String getAno() {
@@ -102,6 +106,22 @@ public class Questao {
 
     public void setDif(String dif) {
         this.dif = dif;
+    }
+
+    public String getGabarito() {
+        return gabarito;
+    }
+
+    public void setGabarito(String gabarito) {
+        this.gabarito = gabarito;
+    }
+
+    public String getUrlImage() {
+        return urlImage;
+    }
+
+    public void setUrlImage(String urlImage) {
+        this.urlImage = urlImage;
     }
     
     public void ImprimeQuestao(){
