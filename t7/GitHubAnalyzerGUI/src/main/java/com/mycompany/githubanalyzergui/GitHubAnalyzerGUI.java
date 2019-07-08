@@ -148,9 +148,6 @@ public class GitHubAnalyzerGUI extends Application {
         NumberAxis yAxis = new NumberAxis();
         BarChart<String, Number> bc = new BarChart<>(xAxis, yAxis);
         bc.setTitle("Media Tamanho: ");
-        xAxis.setLabel("Categoria");
-        yAxis.setLabel("Acertos");
-
         XYChart.Series series1 = new XYChart.Series();
         for (Repositorio lista : listaRepositorio) {
             if(!lista.getMediaTamanho().equals("/")){
